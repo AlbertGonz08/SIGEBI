@@ -1,0 +1,30 @@
+<Solution>
+  <Folder Name="/API/">
+    <Project Path="SIGEBI.Api/SIGEBI.Api.csproj" />
+  </Folder>
+  <Folder Name="/Application/">
+    <Project Path="SIGEBI.Application/SIGEBI.Application.csproj" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="SIGEBI.Domain/SIGEBI.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Desktop/">
+    <Project Path="SIGEBI.Desktop/SIGEBI.Desktop.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="SIGEBI.Infrastructure/SIGEBI.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/IOC/">
+    <Project Path="SIGEBI.IOC/SIGEBI.IOC.csproj" />
+  </Folder>
+  <Folder Name="/Persistence/">
+    <Project Path="SIGEBI.Persistence/SIGEBI.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="SIGEBI.Application.Test/SIGEBI.Application.Test.csproj" />
+    <Project Path="SIGEBI.Persistence.Test/SIGEBI.Persistence.Test.csproj" />
+  </Folder>
+  <Folder Name="/Web/">
+    <Project Path="SIGEBI.Web/SIGEBI.Web.csproj" />
+  </Folder>
+</Solution>
