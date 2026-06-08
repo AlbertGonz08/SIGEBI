@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SIGEBI.Domain.Repository
+{
+    public interface INotificacionService
+    {
+        void EnviarNotificacion(int usuarioId, string tipo, string mensaje);
+    }
+}

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Entities.Usuario
 {
-    internal class Docente
+    public class Docente : Usuario
     {
+        public string Departamento { get; set; }
+        public override bool EsElegible() => EstaActivo();
     }
+
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIGEBI.Domain.Base;
+using SIGEBI.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,15 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Entities.Prestamo
 {
-    internal class Prestamo
+    public class Prestamo : AuditEntity
     {
+        public int Id { get; set; }
+        public int UsuarioId { get; set; }
+        public int RecursoId { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaLimite { get; set; }
+        public DateTime? FechaDevolucion { get; set; }
+        public EstadoPrestamo Estado { get; set; }
+        public bool EstaVencido() => DateTime.Now > FechaLimite && Estado == EstadoPrestamo.Activo;
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Base
 {
-    internal class AuditEntity
+    public abstract class AuditEntity
     {
+        public DateTime FechaCreación { get; set; }
+        public int? CreadoPor {  get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public int ModificadoPot {  get; set; }
     }
 }
