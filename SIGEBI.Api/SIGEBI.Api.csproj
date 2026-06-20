@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SIGEBI.Application\SIGEBI.Application.csproj" />
-    <ProjectReference Include="..\SIGEBI.IOC\SIGEBI.IOC.csproj" />
   </ItemGroup>
 
 </Project>

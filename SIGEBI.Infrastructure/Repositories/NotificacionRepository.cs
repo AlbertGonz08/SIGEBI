@@ -15,12 +15,16 @@ namespace SIGEBI.Infrastructure.Repositories
 
         public void Guardar(Notificacion notificacion)
         {
-            throw new NotImplementedException();
+            _context.Notificaciones.Add(notificacion);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Notificacion> ObtenerPorUsuario(int usuarioId)
         {
-            throw new NotImplementedException();
+            return _context.Notificaciones
+               .Where(n => n.UsuarioId == usuarioId)
+               .OrderByDescending(n => n.FechaGeneracion)
+               .ToList();
         }
     }
 }

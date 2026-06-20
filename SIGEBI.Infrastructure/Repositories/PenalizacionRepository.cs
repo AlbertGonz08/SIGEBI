@@ -15,27 +15,36 @@ namespace SIGEBI.Infrastructure.Repositories
 
         public void Actualizar(Penalizacion penalizacion)
         {
-            throw new NotImplementedException();
+            _context.Penalizaciones.Update(penalizacion);
+            _context.SaveChanges();
         }
 
         public void Guardar(Penalizacion penalizacion)
         {
-            throw new NotImplementedException();
+            _context.Penalizaciones.Add(penalizacion);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Penalizacion> ObtenerActivasPorUsuario(int usuarioId)
         {
-            throw new NotImplementedException();
+            return _context.Penalizaciones
+            .Where(p => p.Id == usuarioId && p.EstaActiva())
+            .ToList();
         }
 
         public IEnumerable<Penalizacion> ObtenerHistorialPorUsuario(int usuarioId)
         {
-            throw new NotImplementedException();
+            return _context.Penalizaciones
+                .Where(p => p.UsuarioId == usuarioId)
+                .OrderByDescending(p => p.FechaPenalizacion)
+                .ToList();
+
         }
 
         public Penalizacion ObtenerPorId(int id)
         {
-            throw new NotImplementedException();
+            return _context.Penalizaciones
+                .FirstOrDefault(p => p.Id == id);
         }
     }
 }

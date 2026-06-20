@@ -1,11 +1,7 @@
 ﻿using SIGEBI.Domain.Entities.Usuario;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SIGEBI.Infrastructure.Repositories
 {
@@ -13,29 +9,35 @@ namespace SIGEBI.Infrastructure.Repositories
     {
         public UsuarioRepository(SigebiDbContext context) : base(context) { }
 
-        public void Actualizar(Usuario usuario)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Guardar(Usuario usuario)
         {
-            throw new NotImplementedException();
+            _context.Usuarios.Add(usuario);
+            _context.SaveChanges();
         }
 
-        public IEnumerable<Usuario> Listar()
+        public void Actualizar(Usuario usuario)
         {
-            throw new NotImplementedException();
-        }
-
-        public Usuario ObtenerPorCedula(string cedula)
-        {
-            throw new NotImplementedException();
+            _context.Usuarios.Update(usuario);
+            _context.SaveChanges();
         }
 
         public Usuario ObtenerPorId(int id)
         {
-            throw new NotImplementedException();
+            return _context.Usuarios
+                .FirstOrDefault(u => u.Id == id);
+        }
+
+        public Usuario ObtenerPorCedula(string cedula)
+        {
+            return _context.Usuarios
+                .FirstOrDefault(u => u.Cedula == cedula);
+        }
+
+        public IEnumerable<Usuario> Listar()
+        {
+            return _context.Usuarios
+                .OrderBy(u => u.Nombre)
+                .ToList();
         }
     }
 }

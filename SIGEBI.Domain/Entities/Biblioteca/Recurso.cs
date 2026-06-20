@@ -14,7 +14,9 @@ namespace SIGEBI.Domain.Entities.Biblioteca
         public string Titulo { get; set; }
         public string Autor { get; set; }
         public string ISBN { get; set; }
+        public int CantidadEjemplares { get; set; }
         public EstadoRecurso Estado { get; set; }
+        public DateTime FechaIngreso { get; set; }
         public bool EstaDisponible() => Estado == EstadoRecurso.Disponible;
     }
 }

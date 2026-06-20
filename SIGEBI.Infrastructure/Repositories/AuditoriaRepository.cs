@@ -13,14 +13,19 @@ namespace SIGEBI.Infrastructure.Repositories
     {
         public AuditoriaRepository(SigebiDbContext context) : base(context) { }
 
-        public IEnumerable<RegistroAuditoria> ObtenerPorRango(DateTime desde, DateTime hasta)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Registrar(RegistroAuditoria registro)
         {
-            throw new NotImplementedException();
+            _context.Auditoria.Add(registro);
+            _context.SaveChanges();
         }
+        public IEnumerable<RegistroAuditoria> ObtenerPorRango(DateTime desde, DateTime hasta)
+        {
+            return _context.Auditoria
+                .Where(a => a.FechaHora >= desde && a.FechaHora <= hasta)
+                .OrderByDescending(a => a.FechaHora) 
+                .ToList();
+
+        }
+
     }
 }

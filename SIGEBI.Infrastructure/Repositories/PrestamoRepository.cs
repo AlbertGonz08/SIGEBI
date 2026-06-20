@@ -1,11 +1,8 @@
 ﻿using SIGEBI.Domain.Entities.Prestamo;
+using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SIGEBI.Infrastructure.Repositories
 {
@@ -13,34 +10,46 @@ namespace SIGEBI.Infrastructure.Repositories
     {
         public PrestamoRepository(SigebiDbContext context) : base(context) { }
 
-        public void Actualizar(Prestamo prestamo)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Guardar(Prestamo prestamo)
         {
-            throw new NotImplementedException();
+            _context.Prestamos.Add(prestamo);
+            _context.SaveChanges();
         }
 
-        public IEnumerable<Prestamo> ObtenerActivosPorUsuario(int usuarioId)
+        public void Actualizar(Prestamo prestamo)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Prestamo> ObtenerHistorialPorUsuario(int usuarioId)
-        {
-            throw new NotImplementedException();
+            _context.Prestamos.Update(prestamo);
+            _context.SaveChanges();
         }
 
         public Prestamo ObtenerPorId(int id)
         {
-            throw new NotImplementedException();
+            return _context.Prestamos
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public IEnumerable<Prestamo> ObtenerActivosPorUsuario(int usuarioId)
+        {
+            return _context.Prestamos
+                .Where(p => p.UsuarioId == usuarioId
+                    && p.Estado == EstadoPrestamo.Activo)
+                .ToList();
+        }
+
+        public IEnumerable<Prestamo> ObtenerHistorialPorUsuario(int usuarioId)
+        {
+            return _context.Prestamos
+                .Where(p => p.UsuarioId == usuarioId)
+                .OrderByDescending(p => p.FechaInicio)
+                .ToList();
         }
 
         public IEnumerable<Prestamo> ObtenerVencidos()
         {
-            throw new NotImplementedException();
+            return _context.Prestamos
+                .Where(p => p.Estado == EstadoPrestamo.Activo
+                    && p.FechaLimite < DateTime.Now)
+                .ToList();
         }
     }
 }
