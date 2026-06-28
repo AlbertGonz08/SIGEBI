@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SIGEBI.Domain.Entities.Biblioteca;
 
 namespace SIGEBI.Domain.Repository
 {
-    internal interface IRecursoEscritor
+    public interface IRecursoEscritor
     {
+        void Guardar(Recurso recurso);
+        void Actualizar(Recurso recurso);
+        void Eliminar(int id);
     }
 }

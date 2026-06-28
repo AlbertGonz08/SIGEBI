@@ -8,9 +8,9 @@ namespace SIGEBI.Domain.Base
 {
     public abstract class AuditEntity
     {
-        public DateTime FechaCreación { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public int? CreadoPor {  get; set; }
         public DateTime? FechaModificacion { get; set; }
-        public int ModificadoPot {  get; set; }
+        public int? ModificadoPor {  get; set; }
     }
 }

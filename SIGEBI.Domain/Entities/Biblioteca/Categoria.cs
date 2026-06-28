@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Entities.Biblioteca
 {
-    internal class Categoria
+    public class Categoria
     {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace SIGEBI.Domain.Entities.Usuario
         public string Nombre { get; set; }
         public string Cedula { get; set; }
         public string Correo { get; set; }
+        public string Contrasena { get; set; }
+        public int TipoUsuarioId { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
 
         public EstadoUsuario Estado {  get; set; }
