@@ -1,4 +1,5 @@
 ﻿using SIGEBI.Domain.Entities.Penalizacion;
+using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Persistence;
 using System;
@@ -28,8 +29,8 @@ namespace SIGEBI.Infrastructure.Repositories
         public IEnumerable<Penalizacion> ObtenerActivasPorUsuario(int usuarioId)
         {
             return _context.Penalizaciones
-            .Where(p => p.Id == usuarioId && p.EstaActiva())
-            .ToList();
+                .Where(p => p.UsuarioId == usuarioId && p.Estado == EstadoPenalizacion.Activa)
+                .ToList();
         }
 
         public IEnumerable<Penalizacion> ObtenerHistorialPorUsuario(int usuarioId)

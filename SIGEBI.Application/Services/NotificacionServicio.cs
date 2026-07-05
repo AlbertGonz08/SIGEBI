@@ -2,32 +2,35 @@
 using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 
-public class NotificacionServicio
+namespace SIGEBI.Application.Services
 {
-    private readonly INotificacionRepository _notificacionRepo;
-
-    public NotificacionServicio(INotificacionRepository notificacionRepo)
+    public class NotificacionServicio
     {
-        _notificacionRepo = notificacionRepo;
-    }
+        private readonly INotificacionRepository _notificacionRepo;
 
-    // Guardar una notificación para el usuario
-    public void Enviar(int usuarioId, TipoNotificacion tipo, string mensaje)
-    {
-        var notificacion = new Notificacion
+        public NotificacionServicio(INotificacionRepository notificacionRepo)
         {
-            UsuarioId = usuarioId,
-            Tipo = tipo,
-            Mensaje = mensaje,
-            FechaGeneracion = DateTime.Now,
-            FueEnviada = true
-        };
+            _notificacionRepo = notificacionRepo;
+        }
 
-        _notificacionRepo.Guardar(notificacion);
-    }
+        // Guardar una notificación para el usuario
+        public void Enviar(int usuarioId, TipoNotificacion tipo, string mensaje)
+        {
+            var notificacion = new Notificacion
+            {
+                UsuarioId = usuarioId,
+                Tipo = tipo,
+                Mensaje = mensaje,
+                FechaGeneracion = DateTime.Now,
+                FueEnviada = true
+            };
 
-    public IEnumerable<Notificacion> ObtenerPorUsuario(int usuarioId)
-    {
-        return _notificacionRepo.ObtenerPorUsuario(usuarioId);
+            _notificacionRepo.Guardar(notificacion);
+        }
+
+        public IEnumerable<Notificacion> ObtenerPorUsuario(int usuarioId)
+        {
+            return _notificacionRepo.ObtenerPorUsuario(usuarioId);
+        }
     }
 }

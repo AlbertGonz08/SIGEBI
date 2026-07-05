@@ -15,25 +15,24 @@ namespace SIGEBI.Domain.Rules
         private const int LimitePrestamoEstudiante = 2;
         private const int LimitePrestamoDocente = 4;
 
-        // método que calcula qué día exacto debe devolver el recurso el usuario.
+        // Calcula qué día exacto debe devolver el recurso según el tipo de usuario
         public static DateTime CalcularFechaLimite(Usuario usuario)
         {
-            //evalúo qué tipo de usuario es usando el operador 'is' (ya que los docentes se le asigna 14 días y a los estudiantes 7)
-            int dias = usuario is Docente ? DiasPrestamoDocente : DiasPrestamoEstudiante;
-            // toma la fecha y hora actual (DateTime.Now), le suma los días calculados y devuelve la fecha limite de entrega
+            // TipoUsuarioId 2 = Docente, cualquier otro = Estudiante
+            int dias = usuario.TipoUsuarioId == 2 ? DiasPrestamoDocente : DiasPrestamoEstudiante;
             return DateTime.Now.AddDays(dias);
         }
 
-        // método para revisar si está disponible el libro físico en la biblioteca
+        // Verifica si el recurso está disponible físicamente en la biblioteca
         public static bool RecursoPuedeSerPrestado(Recurso recurso)
         {
             return recurso.EstaDisponible();
         }
 
-        // método que verifica si el usuario ya tiene demasiados libros prestados.
+        // Verifica si el usuario ya tiene demasiados libros prestados
         public static bool UsuarioAlcanzoLimite(Usuario usuario, int prestamosActivos)
         {
-            int limite = usuario is Docente ? LimitePrestamoDocente : LimitePrestamoEstudiante;
+            int limite = usuario.TipoUsuarioId == 2 ? LimitePrestamoDocente : LimitePrestamoEstudiante;
             return prestamosActivos >= limite;
         }
     }

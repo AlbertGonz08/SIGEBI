@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Entities.Auditoria
 {
-    public class RegistroAuditoria : AuditEntity
+    public class RegistroAuditoria
     {
         public int Id { get; set; }
-        public string TipoAccion { get; set; }
-        public int? UsuarioSistemaId { get; set; }
+        public string? TipoAccion { get; set; }
+        public int? UsuarioSistema { get; set; }
         public DateTime FechaHora { get; set; }
-        public string Descripcion { get; set; }
-        public string TablaAfectada { get; set; }
+        public string? Descripcion { get; set; }
+        public string? TablaAfectada { get; set; }
         public int? RegistroId { get; set; }
     }
 }

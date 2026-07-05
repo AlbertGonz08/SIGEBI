@@ -6,18 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SIGEBI.Domain.Enums;
+
 namespace SIGEBI.Domain.Entities.Biblioteca
 {
-    public class Recurso : AuditEntity
+    public class Recurso
     {
         public int Id { get; set; }
-        public string Titulo { get; set; }
-        public string Autor { get; set; }
-        public string ISBN { get; set; }
+        public string? Titulo { get; set; }
+        public string? Autor { get; set; }
+        public string? ISBN { get; set; }
         public int CategoriaId { get; set; }
         public int CantidadEjemplares { get; set; }
         public EstadoRecurso Estado { get; set; }
         public DateTime FechaIngreso { get; set; }
+        public int? CreadoPor { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public int? ModificadoPor { get; set; }
+
         public bool EstaDisponible() => Estado == EstadoRecurso.Disponible;
     }
 }

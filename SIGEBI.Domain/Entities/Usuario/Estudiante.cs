@@ -8,9 +8,6 @@ namespace SIGEBI.Domain.Entities.Usuario
 {
     public class Estudiante : Usuario
     {
-        public string Carrera { get; set; }
         public override bool EsElegible() => EstaActivo();
-        
-        }
     }
-
+}

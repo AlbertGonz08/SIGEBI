@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Entities.Notificacion
 {
-    public class Notificacion : AuditEntity
+    public class Notificacion
     {
         public int Id { get; set; }
         public int UsuarioId { get; set; }
-        public TipoNotificacion Tipo {  get; set; }
-
-        public string Mensaje { get; set; }
+        public TipoNotificacion Tipo { get; set; }
+        public string? Mensaje { get; set; }
         public DateTime FechaGeneracion { get; set; }
         public bool FueEnviada { get; set; }
+
         public void MarcarComoEnviada() => FueEnviada = true;
-    } 
+    }
 }

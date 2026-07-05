@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Domain.Entities.Penalizacion
 {
-    public class Penalizacion : AuditEntity
+    public class Penalizacion
     {
         public int Id { get; set; }
         public int UsuarioId { get; set; }
@@ -17,7 +17,9 @@ namespace SIGEBI.Domain.Entities.Penalizacion
         public EstadoPenalizacion Estado { get; set; }
         public DateTime FechaPenalizacion { get; set; }
         public DateTime? FechaResolucion { get; set; }
-        public string Observaciones { get; set; }
+        public string? Observaciones { get; set; }
+        public int? ResueltoPor { get; set; }
+
         public bool EstaActiva() => Estado == EstadoPenalizacion.Activa;
     }
 }

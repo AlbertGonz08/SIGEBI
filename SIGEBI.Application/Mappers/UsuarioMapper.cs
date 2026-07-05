@@ -19,7 +19,7 @@ namespace SIGEBI.Application.Mappers
                 Correo = usuario.Correo,
                 Cedula = usuario.Cedula,
                 Estado = usuario.Estado.ToString(),
-                TipoUsuario = usuario.TipoUsuario?.Nombre
+                TipoUsuario = usuario.TipoUsuarioId.ToString(),
             };
         }
     }
