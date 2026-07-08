@@ -1,10 +1,11 @@
-﻿using SIGEBI.Domain.Entities.Notificacion;
+﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Notificacion;
 using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 
 namespace SIGEBI.Application.Services
 {
-    public class NotificacionServicio
+    public class NotificacionServicio : INotificacionServicio
     {
         private readonly INotificacionRepository _notificacionRepo;
 

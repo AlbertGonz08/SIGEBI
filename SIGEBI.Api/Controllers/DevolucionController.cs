@@ -1,27 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIGEBI.Application.Services;
 
+using SIGEBI.Application.Interfaces;
+
 namespace SIGEBI.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DevolucionController : ControllerBase
+    public class PenalizacionController : ControllerBase
     {
-        private readonly DevolucionServicio _devolucionServicio;
+        private readonly IPenalizacionServicio _penalizacionServicio;
 
-        public DevolucionController(DevolucionServicio devolucionServicio)
+        public PenalizacionController(IPenalizacionServicio penalizacionServicio)
         {
-            _devolucionServicio = devolucionServicio;
+            _penalizacionServicio = penalizacionServicio;
         }
 
-        // POST api/devoluciones  para registrar una devolución
-        [HttpPost]
-        public IActionResult RegistrarDevolucion(int prestamoId)
+        [HttpGet("usuario/{usuarioId}")]
+        public IActionResult ObtenerActivasPorUsuario(int usuarioId)
+        {
+            var penalizaciones = _penalizacionServicio.ObtenerActivasPorUsuario(usuarioId);
+            return Ok(penalizaciones);
+        }
+
+        [HttpPost("resolver/{penalizacionId}")]
+        public IActionResult ResolverPenalizacion(int penalizacionId)
         {
             try
             {
-                _devolucionServicio.RegistrarDevolucion(prestamoId);
-                return Ok("Devolución registrada correctamente.");
+                _penalizacionServicio.ResolverPenalizacion(penalizacionId);
+                return Ok("Penalización resuelta correctamente.");
             }
             catch (Exception ex)
             {

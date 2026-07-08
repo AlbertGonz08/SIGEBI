@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIGEBI.Application.Services;
+using SIGEBI.Application.Interfaces;
 
 namespace SIGEBI.Api.Controllers
 {
@@ -7,14 +8,13 @@ namespace SIGEBI.Api.Controllers
     [Route("api/[controller]")]
     public class PrestamoController : ControllerBase
     {
-        private readonly PrestamoServicio _prestamoServicio;
+        private readonly IPrestamoServicio _prestamoServicio;
 
-        public PrestamoController(PrestamoServicio prestamoServicio)
+        public PrestamoController(IPrestamoServicio prestamoServicio)
         {
             _prestamoServicio = prestamoServicio;
         }
 
-        // POST api/prestamos — solicita un préstamo
         [HttpPost]
         public IActionResult SolicitarPrestamo(int usuarioId, int recursoId)
         {

@@ -1,10 +1,11 @@
-﻿using SIGEBI.Domain.Entities.Penalizacion;
+﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Penalizacion;
 using SIGEBI.Domain.Entities.Prestamo;
 using SIGEBI.Domain.Repository;
 
 namespace SIGEBI.Application.Services
 {
-    public class ReporteServicio
+    public class ReporteServicio : IReporteServicio
     {
         private readonly IPrestamoRepository _prestamoRepo;
         private readonly IPenalizacionRepository _penalizacionRepo;

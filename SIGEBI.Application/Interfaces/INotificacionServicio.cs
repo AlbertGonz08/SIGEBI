@@ -4,9 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SIGEBI.Domain.Entities.Notificacion;
+using SIGEBI.Domain.Enums;
+
 namespace SIGEBI.Application.Interfaces
 {
-    internal class INotificacionServicio
+    public interface INotificacionServicio
     {
+        void Enviar(int usuarioId, TipoNotificacion tipo, string mensaje);
+        IEnumerable<Notificacion> ObtenerPorUsuario(int usuarioId);
     }
 }

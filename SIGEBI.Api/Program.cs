@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using SIGEBI.Domain.Repository;
-using SIGEBI.Persistence;
-using SIGEBI.Infrastructure.Repositories;
+using SIGEBI.Application.Interfaces;
 using SIGEBI.Application.Services;
+using SIGEBI.Domain.Repository;
+using SIGEBI.Infrastructure.Repositories;
+using SIGEBI.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,13 +25,13 @@ builder.Services.AddScoped<IAuditoriaRepository, AuditoriaRepository>();
 
 
 // Servicios
-builder.Services.AddScoped<UsuarioServicio>();
-builder.Services.AddScoped<RecursoServicio>();
-builder.Services.AddScoped<PrestamoServicio>();
-builder.Services.AddScoped<DevolucionServicio>();
-builder.Services.AddScoped<PenalizacionServicio>();
-builder.Services.AddScoped<NotificacionServicio>();
-builder.Services.AddScoped<ReporteServicio>();
+builder.Services.AddScoped<IPrestamoServicio, PrestamoServicio>();
+builder.Services.AddScoped<IDevolucionServicio, DevolucionServicio>();
+builder.Services.AddScoped<IPenalizacionServicio, PenalizacionServicio>();
+builder.Services.AddScoped<IRecursoServicio, RecursoServicio>();
+builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
+builder.Services.AddScoped<INotificacionServicio, NotificacionServicio>();
+builder.Services.AddScoped<IReporteServicio, ReporteServicio>();
 
 var app = builder.Build();
 

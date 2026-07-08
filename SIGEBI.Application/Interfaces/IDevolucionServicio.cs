@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Application.Interfaces
 {
-    internal class IDevolucionServicio
+    public interface IDevolucionServicio
     {
+        void RegistrarDevolucion(int prestamoId);
     }
 }

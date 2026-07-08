@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIGEBI.Application.Services;
 using SIGEBI.Domain.Entities.Usuario;
+using SIGEBI.Application.Interfaces;
 
 namespace SIGEBI.Api.Controllers
 {
@@ -8,14 +9,13 @@ namespace SIGEBI.Api.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private readonly UsuarioServicio _usuarioServicio;
+        private readonly IUsuarioServicio _usuarioServicio;
 
-        public UsuarioController(UsuarioServicio usuarioServicio)
+        public UsuarioController(IUsuarioServicio usuarioServicio)
         {
             _usuarioServicio = usuarioServicio;
         }
 
-        // GET api/usuarios  lista todos los usuarios
         [HttpGet]
         public IActionResult Listar()
         {
@@ -23,7 +23,6 @@ namespace SIGEBI.Api.Controllers
             return Ok(usuarios);
         }
 
-        // GET api/usuarios/5
         [HttpGet("{id}")]
         public IActionResult ObtenerPorId(int id)
         {
@@ -32,7 +31,6 @@ namespace SIGEBI.Api.Controllers
             return Ok(usuario);
         }
 
-        // GET api/usuarios/cedula/00100000000
         [HttpGet("cedula/{cedula}")]
         public IActionResult ObtenerPorCedula(string cedula)
         {

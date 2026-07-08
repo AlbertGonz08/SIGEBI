@@ -1,9 +1,10 @@
-﻿using SIGEBI.Domain.Entities.Biblioteca;
+﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Biblioteca;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Domain.Rules;
 namespace SIGEBI.Application.Services
 {
-    public class RecursoServicio
+    public class RecursoServicio : IRecursoServicio
     {
         private readonly IRecursoRepository _recursoRepo;
 

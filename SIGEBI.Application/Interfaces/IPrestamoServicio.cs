@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SIGEBI.Application.Interfaces
 {
-    internal class IPrestamoServicio
+    public interface IPrestamoServicio
     {
+        void SolicitarPrestamo(int usuarioId, int recursoId);
     }
 }

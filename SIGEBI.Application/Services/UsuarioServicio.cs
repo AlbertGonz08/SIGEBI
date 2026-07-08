@@ -1,9 +1,10 @@
-﻿using SIGEBI.Domain.Entities.Usuario;
+﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Usuario;
 using SIGEBI.Domain.Repository;
 
 namespace SIGEBI.Application.Services
 {
-    public class UsuarioServicio
+    public class UsuarioServicio : IUsuarioServicio
     {
         private readonly IUsuarioRepository _usuarioRepo;
 

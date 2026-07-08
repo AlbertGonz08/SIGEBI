@@ -1,11 +1,12 @@
-﻿using SIGEBI.Domain.Entities.Prestamo;
+﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Prestamo;
 using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Domain.Rules;
 
 namespace SIGEBI.Application.Services
 {
-    public class PrestamoServicio
+    public class PrestamoServicio : IPrestamoServicio
     {
         private readonly IPrestamoRepository _prestamoRepo;
         private readonly IUsuarioRepository _usuarioRepo;

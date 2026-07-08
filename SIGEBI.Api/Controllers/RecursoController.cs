@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIGEBI.Application.Services;
+using SIGEBI.Application.Interfaces;
 
 namespace SIGEBI.Api.Controllers
 {
@@ -7,14 +8,13 @@ namespace SIGEBI.Api.Controllers
     [Route("api/[controller]")]
     public class RecursoController : ControllerBase
     {
-        private readonly RecursoServicio _recursoServicio;
+        private readonly IRecursoServicio _recursoServicio;
 
-        public RecursoController(RecursoServicio recursoServicio)
+        public RecursoController(IRecursoServicio recursoServicio)
         {
             _recursoServicio = recursoServicio;
         }
 
-        // GET api/recursos  devuelve todo el catálogo
         [HttpGet]
         public IActionResult ObtenerCatalogo()
         {
@@ -22,7 +22,6 @@ namespace SIGEBI.Api.Controllers
             return Ok(recursos);
         }
 
-        // GET api/recursos/disponibles  obtener solo los disponibles
         [HttpGet("disponibles")]
         public IActionResult ObtenerDisponibles()
         {
@@ -30,7 +29,6 @@ namespace SIGEBI.Api.Controllers
             return Ok(recursos);
         }
 
-        // GET api/recursos/5
         [HttpGet("{id}")]
         public IActionResult ObtenerPorId(int id)
         {

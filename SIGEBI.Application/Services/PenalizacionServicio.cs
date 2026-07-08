@@ -1,10 +1,11 @@
-﻿using SIGEBI.Domain.Entities.Penalizacion;
+﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Penalizacion;
 using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 
 namespace SIGEBI.Application.Services
 {
-    public class PenalizacionServicio
+    public class PenalizacionServicio : IPenalizacionServicio
     {
         private readonly IPenalizacionRepository _penalizacionRepo;
         private readonly IUsuarioRepository _usuarioRepo;
