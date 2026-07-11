@@ -9,7 +9,7 @@ namespace SIGEBI.Domain.Repository
 {
     public interface IAuditoriaRepository
     {
-        void Registrar(RegistroAuditoria registro);
+        public void Registrar(RegistroAuditoria registro);
         IEnumerable<RegistroAuditoria> ObtenerPorRango(DateTime desde, DateTime hasta);
     }
 }

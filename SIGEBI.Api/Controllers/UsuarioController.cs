@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SIGEBI.Application.Services;
-using SIGEBI.Domain.Entities.Usuario;
+using SIGEBI.Application.DTOs;
 using SIGEBI.Application.Interfaces;
+using SIGEBI.Application.Services;
+using SIGEBI.Domain.Entities.Biblioteca;
+using SIGEBI.Domain.Entities.Usuario;
+using SIGEBI.Domain.Enums;
+using System.Linq.Expressions;
 
 namespace SIGEBI.Api.Controllers
 {
@@ -38,5 +42,34 @@ namespace SIGEBI.Api.Controllers
             if (usuario == null) return NotFound();
             return Ok(usuario);
         }
+
+
+        [HttpPost]
+        public IActionResult Registrar([FromBody] UsuarioDto dto)
+        {
+            try
+            {
+                var usuario = new Usuario
+                {
+                    Nombre = dto.Nombre,
+                    Cedula = dto.Cedula,
+                    Correo = dto.Correo,
+                    Contrasena = dto.Contrasena,
+                    TipoUsuarioId = dto.TipoUsuarioId,
+                    Estado = EstadoUsuario.Activo,
+                    Carrera = dto.Carrera,
+                    Departamento = dto.Departamento,
+                    FechaRegistro = DateTime.Now
+                };
+                _usuarioServicio.RegistrarUsuario(dto);
+                return Ok("Usuario registrado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
+    

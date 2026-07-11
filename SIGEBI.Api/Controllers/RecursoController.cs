@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SIGEBI.Application.Services;
 using SIGEBI.Application.Interfaces;
+using SIGEBI.Application.Services;
+using SIGEBI.Domain.Entities.Biblioteca;
 
 namespace SIGEBI.Api.Controllers
 {
@@ -36,5 +37,20 @@ namespace SIGEBI.Api.Controllers
             if (recurso == null) return NotFound();
             return Ok(recurso);
         }
+        
+
+            [HttpPost]
+            public IActionResult Registrar([FromBody] Recurso recurso)
+            {
+                try
+                {
+                    _recursoServicio.RegistrarRecurso(recurso);
+                    return Ok("Recurso registrado correctamente.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
     }
-}
