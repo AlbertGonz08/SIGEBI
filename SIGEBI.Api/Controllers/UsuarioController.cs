@@ -19,12 +19,20 @@ namespace SIGEBI.Api.Controllers
         {
             _usuarioServicio = usuarioServicio;
         }
-
         [HttpGet]
         public IActionResult Listar()
         {
             var usuarios = _usuarioServicio.Listar();
-            return Ok(usuarios);
+            var dtos = usuarios.Select(u => new UsuarioDto
+            {
+                Id = u.Id,
+                Nombre = u.Nombre,
+                Correo = u.Correo,
+                Cedula = u.Cedula,
+                Estado = u.Estado.ToString(),
+                TipoUsuario = u.TipoUsuarioId == 1 ? "Estudiante" : "Docente"
+            });
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
@@ -47,20 +55,11 @@ namespace SIGEBI.Api.Controllers
         [HttpPost]
         public IActionResult Registrar([FromBody] UsuarioDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
-                var usuario = new Usuario
-                {
-                    Nombre = dto.Nombre,
-                    Cedula = dto.Cedula,
-                    Correo = dto.Correo,
-                    Contrasena = dto.Contrasena,
-                    TipoUsuarioId = dto.TipoUsuarioId,
-                    Estado = EstadoUsuario.Activo,
-                    Carrera = dto.Carrera,
-                    Departamento = dto.Departamento,
-                    FechaRegistro = DateTime.Now
-                };
                 _usuarioServicio.RegistrarUsuario(dto);
                 return Ok("Usuario registrado correctamente.");
             }

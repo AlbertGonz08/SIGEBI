@@ -14,6 +14,9 @@
   <Folder Name="/Infrastructure/">
     <Project Path="SIGEBI.Infrastructure/SIGEBI.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/Infrastructure/IOC/">
+    <Project Path="SIGEBI.IOC/SIGEBI.IOC.csproj" Id="e4cd390f-df05-4e56-9f97-6270ec823d5f" />
+  </Folder>
   <Folder Name="/Persistence/">
     <Project Path="SIGEBI.Persistence/SIGEBI.Persistence.csproj" />
   </Folder>

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIGEBI.Application.Interfaces;
-using SIGEBI.Application.Services;
+using SIGEBI.Application.DTOs;
 using SIGEBI.Domain.Entities.Biblioteca;
+using SIGEBI.Domain.Enums;
 
 namespace SIGEBI.Api.Controllers
 {
@@ -37,20 +38,22 @@ namespace SIGEBI.Api.Controllers
             if (recurso == null) return NotFound();
             return Ok(recurso);
         }
-        
 
-            [HttpPost]
-            public IActionResult Registrar([FromBody] Recurso recurso)
+        [HttpPost]
+        public IActionResult Registrar([FromBody] Recurso recurso)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
             {
-                try
-                {
-                    _recursoServicio.RegistrarRecurso(recurso);
-                    return Ok("Recurso registrado correctamente.");
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                _recursoServicio.RegistrarRecurso(recurso);
+                return Ok("Recurso registrado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
+}
