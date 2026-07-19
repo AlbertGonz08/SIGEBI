@@ -51,5 +51,11 @@ namespace SIGEBI.Infrastructure.Repositories
                     && p.FechaLimite < DateTime.Now)
                 .ToList();
         }
+        public IEnumerable<Prestamo> ObtenerTodos()
+        {
+            return _context.Prestamos
+                .OrderByDescending(p => p.FechaInicio)
+                .ToList();
+        }
     }
 }

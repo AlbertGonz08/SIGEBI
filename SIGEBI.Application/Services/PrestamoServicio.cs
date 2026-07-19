@@ -14,16 +14,18 @@ namespace SIGEBI.Application.Services
         private readonly IRecursoRepository _recursoRepo;
         private readonly IPenalizacionRepository _penalizacionRepo;
         private readonly IAuditoriaRepository _auditoriaRepo;
+        private readonly INotificacionServicio _notificacionServicio;
 
         public PrestamoServicio(IPrestamoRepository prestamoRepo, IUsuarioRepository usuarioRepo,
             IRecursoRepository recursoRepo, IPenalizacionRepository penalizacionRepo,
-            IAuditoriaRepository auditoriaRepo)
+            IAuditoriaRepository auditoriaRepo, INotificacionServicio notificacionServicio)
         {
             _prestamoRepo = prestamoRepo;
             _usuarioRepo = usuarioRepo;
             _recursoRepo = recursoRepo;
             _penalizacionRepo = penalizacionRepo;
             _auditoriaRepo = auditoriaRepo;
+            _notificacionServicio = notificacionServicio;
         }
 
         public void SolicitarPrestamo(int usuarioId, int recursoId)
@@ -56,7 +58,11 @@ namespace SIGEBI.Application.Services
             recurso.Estado = EstadoRecurso.Prestado;
             _recursoRepo.Actualizar(recurso);
 
-            // Registrar en auditoría
+            // Notificar al usuario que el préstamo fue aprobado
+            _notificacionServicio.Enviar(usuarioId, TipoNotificacion.PrestamoAprobado,
+                $"Tu préstamo fue aprobado. Fecha límite: {prestamo.FechaLimite:dd/MM/yyyy}");
+
+            // Auditoría
             _auditoriaRepo.Registrar(new RegistroAuditoria
             {
                 TipoAccion = "RegistroPrestamo",

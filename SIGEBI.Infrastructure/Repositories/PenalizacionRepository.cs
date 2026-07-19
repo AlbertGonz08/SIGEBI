@@ -47,5 +47,11 @@ namespace SIGEBI.Infrastructure.Repositories
             return _context.Penalizaciones
                 .FirstOrDefault(p => p.Id == id);
         }
+        public IEnumerable<Penalizacion> ObtenerTodos()
+        {
+            return _context.Penalizaciones
+                .OrderByDescending(p => p.FechaPenalizacion)
+                .ToList();
+        }
     }
 }

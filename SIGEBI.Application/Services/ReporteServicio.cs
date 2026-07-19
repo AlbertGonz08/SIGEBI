@@ -1,6 +1,7 @@
 ﻿using SIGEBI.Application.Interfaces;
 using SIGEBI.Domain.Entities.Penalizacion;
 using SIGEBI.Domain.Entities.Prestamo;
+using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 
 namespace SIGEBI.Application.Services
@@ -16,24 +17,24 @@ namespace SIGEBI.Application.Services
             _penalizacionRepo = penalizacionRepo;
         }
 
-        // Préstamos realizados en un rango de fechas
+        // Préstamos en un rango de fechas
         public IEnumerable<Prestamo> ObtenerPrestamosPorRango(DateTime desde, DateTime hasta)
         {
-            return _prestamoRepo.ObtenerHistorialPorUsuario(0)
+            return _prestamoRepo.ObtenerTodos()
                 .Where(p => p.FechaInicio >= desde && p.FechaInicio <= hasta);
         }
 
-        // Préstamos que están vencidos actualmente
+        // Préstamos vencidos actualmente
         public IEnumerable<Prestamo> ObtenerVencidos()
         {
             return _prestamoRepo.ObtenerVencidos();
         }
 
-        // Usuarios que tienen penalizaciones activas
+        // Penalizaciones activas
         public IEnumerable<Penalizacion> ObtenerPenalizacionesActivas()
         {
-            return _penalizacionRepo.ObtenerHistorialPorUsuario(0)
-                .Where(p => p.EstaActiva());
+            return _penalizacionRepo.ObtenerTodos()
+                .Where(p => p.Estado == EstadoPenalizacion.Activa);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace SIGEBI.Domain.Enums
         PenalizacionAplicada,
         PenalizacionResuelta,
         PrestamoAprobado,
-        PrestamoRechazado
+        PrestamoRechazado,
+        DevolucionRegistrada
     }
 }

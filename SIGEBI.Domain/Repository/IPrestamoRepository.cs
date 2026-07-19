@@ -13,7 +13,9 @@ namespace SIGEBI.Domain.Repository
         IEnumerable<Prestamo> ObtenerActivosPorUsuario(int usuarioId);
         IEnumerable<Prestamo> ObtenerHistorialPorUsuario(int usuarioId);
         IEnumerable<Prestamo> ObtenerVencidos();
+        IEnumerable<Prestamo> ObtenerTodos();
         void Guardar(Prestamo prestamo);
         void Actualizar(Prestamo prestamo);
     }
+
 }

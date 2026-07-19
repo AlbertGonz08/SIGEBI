@@ -12,6 +12,7 @@ namespace SIGEBI.Domain.Repository
         Penalizacion ObtenerPorId(int id);
         IEnumerable<Penalizacion> ObtenerActivasPorUsuario(int usuarioId);
         IEnumerable<Penalizacion> ObtenerHistorialPorUsuario(int usuarioId);
+        IEnumerable<Penalizacion> ObtenerTodos();
         void Guardar(Penalizacion penalizacion);
         void Actualizar(Penalizacion penalizacion);
     }

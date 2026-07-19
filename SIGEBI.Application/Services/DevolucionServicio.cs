@@ -13,14 +13,17 @@ namespace SIGEBI.Application.Services
         private readonly IRecursoRepository _recursoRepo;
         private readonly IPenalizacionRepository _penalizacionRepo;
         private readonly IAuditoriaRepository _auditoriaRepo;
+        private readonly INotificacionServicio _notificacionServicio;
 
         public DevolucionServicio(IPrestamoRepository prestamoRepo, IRecursoRepository recursoRepo,
-            IPenalizacionRepository penalizacionRepo, IAuditoriaRepository auditoriaRepo)
+            IPenalizacionRepository penalizacionRepo, IAuditoriaRepository auditoriaRepo,
+            INotificacionServicio notificacionServicio)
         {
             _prestamoRepo = prestamoRepo;
             _recursoRepo = recursoRepo;
             _penalizacionRepo = penalizacionRepo;
             _auditoriaRepo = auditoriaRepo;
+            _notificacionServicio = notificacionServicio;
         }
 
         public void RegistrarDevolucion(int prestamoId)
@@ -42,7 +45,11 @@ namespace SIGEBI.Application.Services
                 };
                 _penalizacionRepo.Guardar(penalizacion);
 
-                // Auditoría — penalización aplicada
+                // Notificar penalización
+                _notificacionServicio.Enviar(prestamo.UsuarioId, TipoNotificacion.PenalizacionAplicada,
+                    $"Se aplicó una penalización por {diasRetraso} días de retraso.");
+
+                // Auditoría penalización
                 _auditoriaRepo.Registrar(new RegistroAuditoria
                 {
                     TipoAccion = "AplicacionPenalizacion",
@@ -62,7 +69,11 @@ namespace SIGEBI.Application.Services
             recurso.Estado = EstadoRecurso.Disponible;
             _recursoRepo.Actualizar(recurso);
 
-            // Auditoría devolución registrada
+            // Notificar devolución
+            _notificacionServicio.Enviar(prestamo.UsuarioId, TipoNotificacion.DevolucionRegistrada,
+                $"Tu devolución fue registrada correctamente.");
+
+            // Auditoría devolución
             _auditoriaRepo.Registrar(new RegistroAuditoria
             {
                 TipoAccion = "RegistroDevolucion",

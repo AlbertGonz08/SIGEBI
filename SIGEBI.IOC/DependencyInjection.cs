@@ -28,6 +28,7 @@ namespace SIGEBI.IOC
             services.AddScoped<IPenalizacionServicio, PenalizacionServicio>();
             services.AddScoped<INotificacionServicio, NotificacionServicio>();
             services.AddScoped<IReporteServicio, ReporteServicio>();
+            services.AddScoped<IAuditoriaServicio, AuditoriaServicio>();
             return services;
         }
     }
