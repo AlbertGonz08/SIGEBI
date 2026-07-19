@@ -1,8 +1,10 @@
 ﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Auditoria;
 using SIGEBI.Domain.Entities.Penalizacion;
 using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Domain.Rules;
+
 namespace SIGEBI.Application.Services
 {
     public class DevolucionServicio : IDevolucionServicio
@@ -10,13 +12,15 @@ namespace SIGEBI.Application.Services
         private readonly IPrestamoRepository _prestamoRepo;
         private readonly IRecursoRepository _recursoRepo;
         private readonly IPenalizacionRepository _penalizacionRepo;
+        private readonly IAuditoriaRepository _auditoriaRepo;
 
         public DevolucionServicio(IPrestamoRepository prestamoRepo, IRecursoRepository recursoRepo,
-            IPenalizacionRepository penalizacionRepo)
+            IPenalizacionRepository penalizacionRepo, IAuditoriaRepository auditoriaRepo)
         {
             _prestamoRepo = prestamoRepo;
             _recursoRepo = recursoRepo;
             _penalizacionRepo = penalizacionRepo;
+            _auditoriaRepo = auditoriaRepo;
         }
 
         public void RegistrarDevolucion(int prestamoId)
@@ -24,10 +28,8 @@ namespace SIGEBI.Application.Services
             var prestamo = _prestamoRepo.ObtenerPorId(prestamoId);
             var fechaDevolucion = DateTime.Now;
 
-            // Calcular si hubo retraso
             int diasRetraso = ReglasDeDevolucion.CalcularDiasRetraso(prestamo, fechaDevolucion);
 
-            // Si hubo retraso, penalizar al usuario
             if (ReglasDeDevolucion.RequierePenalizacion(diasRetraso))
             {
                 var penalizacion = new Penalizacion
@@ -39,9 +41,19 @@ namespace SIGEBI.Application.Services
                     FechaPenalizacion = fechaDevolucion
                 };
                 _penalizacionRepo.Guardar(penalizacion);
+
+                // Auditoría — penalización aplicada
+                _auditoriaRepo.Registrar(new RegistroAuditoria
+                {
+                    TipoAccion = "AplicacionPenalizacion",
+                    UsuarioSistema = prestamo.UsuarioId,
+                    FechaHora = DateTime.Now,
+                    Descripcion = $"Penalización aplicada — Usuario {prestamo.UsuarioId}, {diasRetraso} días de retraso",
+                    TablaAfectada = "Penalizacion",
+                    RegistroId = prestamoId
+                });
             }
 
-            // Cerrar el préstamo y liberar el recurso
             prestamo.FechaDevolucion = fechaDevolucion;
             prestamo.Estado = EstadoPrestamo.Devuelto;
             _prestamoRepo.Actualizar(prestamo);
@@ -49,6 +61,17 @@ namespace SIGEBI.Application.Services
             var recurso = _recursoRepo.ObtenerPorId(prestamo.RecursoId);
             recurso.Estado = EstadoRecurso.Disponible;
             _recursoRepo.Actualizar(recurso);
+
+            // Auditoría devolución registrada
+            _auditoriaRepo.Registrar(new RegistroAuditoria
+            {
+                TipoAccion = "RegistroDevolucion",
+                UsuarioSistema = prestamo.UsuarioId,
+                FechaHora = DateTime.Now,
+                Descripcion = $"Devolución registrada — Préstamo {prestamoId}",
+                TablaAfectada = "Prestamo",
+                RegistroId = prestamoId
+            });
         }
     }
 }

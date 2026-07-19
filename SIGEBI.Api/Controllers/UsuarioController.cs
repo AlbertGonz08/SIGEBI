@@ -68,6 +68,23 @@ namespace SIGEBI.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        // PUT api/Usuario/5
+        [HttpPut("{id}")]
+        public IActionResult Actualizar(int id, [FromBody] UsuarioDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                _usuarioServicio.ActualizarUsuario(id, dto);
+                return Ok("Usuario actualizado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

@@ -17,6 +17,9 @@ namespace SIGEBI.Application.DTOs
         [MaxLength(20, ErrorMessage = "El ISBN no puede tener más de 20 caracteres.")]
         public string? ISBN { get; set; }
 
+        [Required(ErrorMessage = "La categoría es requerida.")]
+        public int CategoriaId { get; set; }
+
         [Range(1, 9999, ErrorMessage = "La cantidad de ejemplares debe ser entre 1 y 9999.")]
         public int CantidadEjemplares { get; set; }
 

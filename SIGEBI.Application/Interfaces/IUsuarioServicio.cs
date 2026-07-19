@@ -14,5 +14,6 @@ namespace SIGEBI.Application.Interfaces
         Usuario ObtenerPorId(int id);
         Usuario ObtenerPorCedula(string cedula);
         IEnumerable<Usuario> Listar();
+        void ActualizarUsuario(int id, UsuarioDto dto);
     }
 }

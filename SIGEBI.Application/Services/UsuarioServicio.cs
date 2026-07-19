@@ -35,5 +35,19 @@ namespace SIGEBI.Application.Services
         public Usuario ObtenerPorId(int id) => _usuarioRepo.ObtenerPorId(id);
         public Usuario ObtenerPorCedula(string cedula) => _usuarioRepo.ObtenerPorCedula(cedula);
         public IEnumerable<Usuario> Listar() => _usuarioRepo.Listar();
+
+        public void ActualizarUsuario(int id, UsuarioDto dto)
+        {
+            var usuario = _usuarioRepo.ObtenerPorId(id);
+            if (usuario == null)
+                throw new Exception("Usuario no encontrado.");
+
+            usuario.Nombre = dto.Nombre;
+            usuario.Correo = dto.Correo;
+            usuario.Carrera = dto.Carrera;
+            usuario.Departamento = dto.Departamento;
+
+            _usuarioRepo.Actualizar(usuario);
+        }
     }
 }

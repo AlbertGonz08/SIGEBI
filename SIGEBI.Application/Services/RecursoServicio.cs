@@ -1,7 +1,10 @@
-﻿using SIGEBI.Application.Interfaces;
+﻿using SIGEBI.Application.DTOs;
+using SIGEBI.Application.Interfaces;
 using SIGEBI.Domain.Entities.Biblioteca;
+using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
 using SIGEBI.Domain.Rules;
+
 namespace SIGEBI.Application.Services
 {
     public class RecursoServicio : IRecursoServicio
@@ -13,9 +16,19 @@ namespace SIGEBI.Application.Services
             _recursoRepo = recursoRepo;
         }
 
-        public void RegistrarRecurso(Recurso recurso)
+        public void RegistrarRecurso(RecursoDto dto)
         {
-            // Validar que tenga la información mínima antes de guardar
+            var recurso = new Recurso
+            {
+                Titulo = dto.Titulo,
+                Autor = dto.Autor,
+                ISBN = dto.ISBN,
+                CategoriaId = dto.CategoriaId,
+                CantidadEjemplares = dto.CantidadEjemplares,
+                Estado = EstadoRecurso.Disponible,
+                FechaIngreso = DateTime.Now
+            };
+
             if (!ReglasDeInventario.RecursoPuedeSerRegistrado(recurso))
                 throw new Exception("El recurso no tiene la información mínima requerida.");
 
@@ -23,9 +36,20 @@ namespace SIGEBI.Application.Services
         }
 
         public IEnumerable<Recurso> ObtenerCatalogo() => _recursoRepo.Listar();
-
         public IEnumerable<Recurso> ObtenerDisponibles() => _recursoRepo.ListarDisponibles();
-
         public Recurso ObtenerPorId(int id) => _recursoRepo.ObtenerPorId(id);
+    
+    public void DarDeBaja(int id)
+        {
+            var recurso = _recursoRepo.ObtenerPorId(id);
+            if (recurso == null)
+                throw new Exception("Recurso no encontrado.");
+
+            if (!ReglasDeInventario.RecursoPuedeDarseDeBaja(recurso))
+                throw new Exception("No se puede dar de baja un recurso que tiene préstamos activos.");
+
+            recurso.Estado = EstadoRecurso.FueraDeServicio;
+            _recursoRepo.Actualizar(recurso);
+        }
     }
 }

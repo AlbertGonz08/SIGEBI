@@ -1,4 +1,5 @@
 ﻿using SIGEBI.Application.Interfaces;
+using SIGEBI.Domain.Entities.Auditoria;
 using SIGEBI.Domain.Entities.Prestamo;
 using SIGEBI.Domain.Enums;
 using SIGEBI.Domain.Repository;
@@ -12,24 +13,25 @@ namespace SIGEBI.Application.Services
         private readonly IUsuarioRepository _usuarioRepo;
         private readonly IRecursoRepository _recursoRepo;
         private readonly IPenalizacionRepository _penalizacionRepo;
+        private readonly IAuditoriaRepository _auditoriaRepo;
 
         public PrestamoServicio(IPrestamoRepository prestamoRepo, IUsuarioRepository usuarioRepo,
-            IRecursoRepository recursoRepo, IPenalizacionRepository penalizacionRepo)
+            IRecursoRepository recursoRepo, IPenalizacionRepository penalizacionRepo,
+            IAuditoriaRepository auditoriaRepo)
         {
             _prestamoRepo = prestamoRepo;
             _usuarioRepo = usuarioRepo;
             _recursoRepo = recursoRepo;
             _penalizacionRepo = penalizacionRepo;
+            _auditoriaRepo = auditoriaRepo;
         }
 
-        // Validae todo antes de aprobar un préstamo y lo registra
         public void SolicitarPrestamo(int usuarioId, int recursoId)
         {
             var usuario = _usuarioRepo.ObtenerPorId(usuarioId);
             var penalizaciones = _penalizacionRepo.ObtenerActivasPorUsuario(usuarioId);
             var prestamosActivos = _prestamoRepo.ObtenerActivosPorUsuario(usuarioId);
             var recurso = _recursoRepo.ObtenerPorId(recursoId);
-
 
             if (!ReglasDeAcceso.PuedeRealizarPrestamo(usuario, penalizaciones))
                 throw new Exception("El usuario no puede realizar préstamos.");
@@ -51,9 +53,19 @@ namespace SIGEBI.Application.Services
 
             _prestamoRepo.Guardar(prestamo);
 
-            // Actualizar el recurso a Prestado
             recurso.Estado = EstadoRecurso.Prestado;
             _recursoRepo.Actualizar(recurso);
+
+            // Registrar en auditoría
+            _auditoriaRepo.Registrar(new RegistroAuditoria
+            {
+                TipoAccion = "RegistroPrestamo",
+                UsuarioSistema = usuarioId,
+                FechaHora = DateTime.Now,
+                Descripcion = $"Préstamo registrado — Usuario {usuarioId}, Recurso {recursoId}",
+                TablaAfectada = "Prestamo",
+                RegistroId = prestamo.Id
+            });
         }
     }
 }
